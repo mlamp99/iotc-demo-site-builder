@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hardware Inventory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="container"><img src="iotconnect_logo.png" alt="IoTConnect logo" class="logo"> <a href="index.html">Home</a> <a href="inventory.html" style="text-decoration:underline">Inventory</a> <a href="demos.html">Demos</a></div></nav>
+<div class="container">
+  <h1>Hardware Inventory</h1>
+  <label for="inventory-filter">Filter by manufacturer:</label> 
+  <select id="inventory-filter">
+<option value="all">All Manufacturers</option>
+<option value="infineon">Infineon</option>
+<option value="microchip">Microchip</option>
+<option value="nxp">NXP</option>
+<option value="renesas">Renesas</option>
+<option value="stmicroelectronics">STMicroelectronics</option>
+<option value="seeed studio">Seeed Studio</option>
+<option value="tria / amd">Tria / AMD</option>
+<option value="tria / nxp">Tria / NXP</option>
+<option value="tria / qualcom">Tria / Qualcom</option>
+<option value="tria / renesas">Tria / Renesas</option>
+  </select>
+  <input type="text" id="inventory-search" placeholder="Search..." style="margin-left:10px; padding:4px;">
+  <div class="grid">
+<div class="card" data-manufacturer="infineon">
+  <h2>PSOC™ 6 Artificial Intelligence Evaluation Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CY8CKIT-062S2-AI.png" alt="PSOC™ 6 Artificial Intelligence Evaluation Kit">
+  <p><strong>Manufacturer:</strong> Infineon</p>
+  <p><strong>Part Number:</strong> CY8CKIT-062S2-AI</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotc-mtb-ai-baby-monitor/blob/main/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="infineon">
+  <h2>XENSIV™ KIT CSK PASCO2</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/KITCSKPASCO2TOBO1.png" alt="XENSIV™ KIT CSK PASCO2">
+  <p><strong>Manufacturer:</strong> Infineon</p>
+  <p><strong>Part Number:</strong> KITCSKPASCO2TOBO1</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotc-mtb-xensiv-example/blob/main/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="infineon">
+  <h2>PSOC™ 6 Wi-Fi Bluetooth® pioneer kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CY8CKIT-062-WIFI-BT.png" alt="PSOC™ 6 Wi-Fi Bluetooth® pioneer kit">
+  <p><strong>Manufacturer:</strong> Infineon</p>
+  <p><strong>Part Number:</strong> CY8CKIT-062-WIFI-BT</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotc-mtb-basic-example/blob/main/DEVELOPER_GUIDE.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="infineon">
+  <h2>PSOC™ 6 Wi-Fi Bluetooth® prototyping kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CY8CPROTO-062-4343W.png" alt="PSOC™ 6 Wi-Fi Bluetooth® prototyping kit">
+  <p><strong>Manufacturer:</strong> Infineon</p>
+  <p><strong>Part Number:</strong> CY8CPROTO-062-4343W</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotc-mtb-basic-example/blob/main/DEVELOPER_GUIDE.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="infineon">
+  <h2>PSOC™ 62S3 Wi-Fi Bluetooth® prototyping kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CY8CPROTO-062S3-4343W.png" alt="PSOC™ 62S3 Wi-Fi Bluetooth® prototyping kit">
+  <p><strong>Manufacturer:</strong> Infineon</p>
+  <p><strong>Part Number:</strong> CY8CPROTO-062S3-4343W</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotc-mtb-basic-example/blob/main/DEVELOPER_GUIDE.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>PolarFire Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/ MPFS-DISCO-KIT.png" alt="PolarFire Discovery Kit">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> MPFS-DISCO-KIT</p>
+  <p><a href="https://www.microchip.com/en-us/development-tool/mpfs-disco-kit">Product page</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>AVR-IOT mini Cellular</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EV70N78A.png" alt="AVR-IOT mini Cellular">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> EV70N78A</p>
+  <p><a href="https://www.microchip.com/en-us/development-tool/ev70n78a">Product page</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>WFI32-IoT Development Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EV36W50A.png" alt="WFI32-IoT Development Board">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> EV36W50A</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/wfi32iot">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>32BIT MPU, ARM CORTEX-A5 Evaluation Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/ATSAMA5D27-SOM1-EK1.png" alt="32BIT MPU, ARM CORTEX-A5 Evaluation Kit">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> ATSAMA5D27-SOM1-EK1</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-python-lite-sdk-demos/tree/main/microchip-sama5d27">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>SAM E54 Xplained Pro Evaluation Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/ATSAME54-XPRO.png" alt="SAM E54 Xplained Pro Evaluation Kit">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> ATSAME54-XPRO</p>
+  <p><a href="https://github.com/avnet-iotconnect/meta-iotconnect-docs?tab=readme-ov-file">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>SAMA7D65 Curiosity Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EV63J76A.png" alt="SAMA7D65 Curiosity Kit">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> EV63J76A</p>
+</div>
+<div class="card" data-manufacturer="microchip">
+  <h2>PIC32CX-BZ3 and WBZ35x Curiosity Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EV19J06A.png" alt="PIC32CX-BZ3 and WBZ35x Curiosity Board">
+  <p><strong>Manufacturer:</strong> Microchip</p>
+  <p><strong>Part Number:</strong> EV19J06A</p>
+  <p><a href="https://www.microchip.com/en-us/product/wbz350pe">Product page</a></p>
+</div>
+<div class="card" data-manufacturer="nxp">
+  <h2>IMX93 Freedom Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/FRDM-IMX93.png" alt="IMX93 Freedom Board">
+  <p><strong>Manufacturer:</strong> NXP</p>
+  <p><strong>Part Number:</strong> FRDM-IMX93</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-python-lite-sdk-demos/tree/main/nxp-frdm-imx-93">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="nxp">
+  <h2>i.MX RT1060 Evaluation Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/MIMXRT1060-EVKB.png" alt="i.MX RT1060 Evaluation Kit">
+  <p><strong>Manufacturer:</strong> NXP</p>
+  <p><strong>Part Number:</strong> MIMXRT1060-EVKB</p>
+  <p><a href="https://www.nxp.com/design/design-center/development-boards-and-designs/MIMXRT1060-EVKB">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/mimxrt1060">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Evaluation Kit for RA8M1 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EK-RA8M1.png" alt="Evaluation Kit for RA8M1 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> EK-RA8M1</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-freertos-ek-ra8m1-pmod/blob/main/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Cloud Kit Based on RA6M5 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CK-RA6M5.png" alt="Cloud Kit Based on RA6M5 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> CK-RA6M5</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-freertos-ck-ra6m5-v2-pmod/blob/master/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Evaluation Kit for RA6M4 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EK-RA6M4.png" alt="Evaluation Kit for RA6M4 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> EK-RA6M4</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-freertos-ek-ra6m4-pmod/blob/master/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Development Kit, DA16200, Wireless Communication, WiFi with IOT</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/DA16200MOD-DEVKT.png" alt="Development Kit, DA16200, Wireless Communication, WiFi with IOT">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> DA16200MOD-DEVKT</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-dialog-da16k-sdk/tree/main">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>DA16200 Ultra Low Power Wi-Fi Pmod Module Evaluation Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/US159-DA16200MEVZ.png" alt="DA16200 Ultra Low Power Wi-Fi Pmod Module Evaluation Board">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> US159-DA16200MEVZ</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-dialog-da16k-sdk/tree/main">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Development Kit, DA 16200, 2.4GHz Wireless Communication</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/DA16600MOD-DEVKT.png" alt="Development Kit, DA 16200, 2.4GHz Wireless Communication">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> DA16600MOD-DEVKT</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-dialog-da16k-sdk/tree/main">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>DA16600 Ultra Low Power Wi-Fi and Bluetooth Low Energy Combo Pmod Module Evaluation Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/US159-DA16600EVZ.png" alt="DA16600 Ultra Low Power Wi-Fi and Bluetooth Low Energy Combo Pmod Module Evaluation Board">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> US159-DA16600EVZ</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-dialog-da16k-sdk/tree/main">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>CK-RX65N Cloud Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/CK-RK65N.png" alt="CK-RX65N Cloud Kit">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> CK-RK65N</p>
+  <p><a href="https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotc-azurertos-sdk/samples/ck-rx65n/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Evaluation Kit for RA2L1 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/EK-RA2L1.png" alt="Evaluation Kit for RA2L1 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> EK-RA2L1</p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Fast Prototyping Board for RA0E2 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/FPB-RA0E2.png" alt="Fast Prototyping Board for RA0E2 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> FPB-RA0E2</p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>RA0E1 Fast Prototyping Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/FPB-RA0E1.png" alt="RA0E1 Fast Prototyping Board">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> FPB-RA0E1</p>
+</div>
+<div class="card" data-manufacturer="renesas">
+  <h2>Fast Prototyping Board for RA2E1 MCU Group</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/FPB-RA2E1.png" alt="Fast Prototyping Board for RA2E1 MCU Group">
+  <p><strong>Manufacturer:</strong> Renesas</p>
+  <p><strong>Part Number:</strong> FPB-RA2E1</p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32N6 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32N6570-DK.png" alt="STM32N6 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32N6570-DK</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-stm32-n6-demos/blob/main/doc/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32MP2 Evaluation Board</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32MP257F-EV1.png" alt="STM32MP2 Evaluation Board">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32MP257F-EV1</p>
+  <p><a href="https://github.com/avnet-iotconnect/meta-iotconnect-docs/blob/main/QuickStart/STM32MP257.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32MP2 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32MP257F-DK.png" alt="STM32MP2 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32MP257F-DK</p>
+  <p><a href="https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/meta-iotconnect-docs/blob/main/QuickStart/STM32MP257.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32U5 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/B-U585I-IOT02A.png" alt="STM32U5 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> B-U585I-IOT02A</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-freertos-stm32-u5">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32H5 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32H573I-DK.png" alt="STM32H5 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32H573I-DK</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-freertos-stm32-h5">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32MP135 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32MP135F-DK.png" alt="STM32MP135 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32MP135F-DK</p>
+  <p><a href="https://www.st.com/en/evaluation-tools/stm32mp135f-dk.html">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-python-lite-sdk-demos/tree/main/stm32mp135f-dk">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32MP157 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STM32MP157F-DK2.png" alt="STM32MP157 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STM32MP157F-DK2</p>
+  <p><a href="https://www.st.com/en/evaluation-tools/stm32mp157c-dk2.html">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/kirkstone/board_specific_readmes/stm32mp157/stm32mp157.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>Astra Module</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STEVAL-ASTRA1B.png" alt="Astra Module">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STEVAL-ASTRA1B</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-lora-demos">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2></h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/NUCLEO-WL55JC1.png" alt="">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> NUCLEO-WL55JC1</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-lora-demos">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>SensorTile.box PRO</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STEVAL-MKBOXPRO.png" alt="SensorTile.box PRO">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STEVAL-MKBOXPRO</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-gateway-mobile-app">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>Proteus</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/STEVAL-PROTEUS1.png" alt="Proteus">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> STEVAL-PROTEUS1</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-python-examples/tree/main/PROTEUS_MP157F_Demo">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="stmicroelectronics">
+  <h2>STM32L4 Discovery Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/B-L475E-IOT01A2.png" alt="STM32L4 Discovery Kit">
+  <p><strong>Manufacturer:</strong> STMicroelectronics</p>
+  <p><strong>Part Number:</strong> B-L475E-IOT01A2</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/stm32l4">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / amd">
+  <h2>ZUBoard 1CG</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-ZUB-1CG-DK-G.png" alt="ZUBoard 1CG">
+  <p><strong>Manufacturer:</strong> Tria / AMD</p>
+  <p><strong>Part Number:</strong> AES-ZUB-1CG-DK-G</p>
+  <p><a href="https://www.tria-technologies.com/product/zuboard-1cg/">Product page</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaXBoard OSM93</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-MAAXB-OSM93-DK-G.png" alt="NXP MaaXBoard OSM93">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> AES-MAAXB-OSM93-DK-G</p>
+  <p><a href="https://github.com/Avnet/MaaXBoard-OSM93-HUB">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaxBoard RT</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-MC-SBC-IMXRT1176-G.png" alt="NXP MaaxBoard RT">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> AES-MC-SBC-IMXRT1176-G</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-azurertos-sdk/blob/main/samples/maaxboardrt/QUICKSTART.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaXBoard 8M</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-MC-SBC-IMX8M-G.png" alt="NXP MaaXBoard 8M">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> AES-MC-SBC-IMX8M-G</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/hardknott/board_specific_readmes/maaxboard.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>MSC SM2S-IMX8PLUS</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/MSC SM2S-IMX8PLUS.png" alt="MSC SM2S-IMX8PLUS">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> MSC SM2S-IMX8PLUS</p>
+  <p><a href="https://embedded.avnet.com/product/msc-sm2s-imx8plus/">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/hardknott/board_specific_readmes/sm2s-imx8mp.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaXBoard ULP</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-MAAXB-8ULP-SK-G.png" alt="NXP MaaXBoard ULP">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> AES-MAAXB-8ULP-SK-G</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/hardknott/board_specific_readmes/maaxboard.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaXBoard Mini</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-MC-SBC-IMX8MINI-G.png" alt="NXP MaaXBoard Mini">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> AES-MC-SBC-IMX8MINI-G</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/hardknott/board_specific_readmes/maaxboard.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / nxp">
+  <h2>NXP MaaXBoard 8 Plus</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/SM2S-IMX8PLUS.png" alt="NXP MaaXBoard 8 Plus">
+  <p><strong>Manufacturer:</strong> Tria / NXP</p>
+  <p><strong>Part Number:</strong> SM2S-IMX8PLUS</p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-yocto-python-sdk/blob/hardknott/board_specific_readmes/sm2s-imx8mp.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / renesas">
+  <h2>RASynBoard NDP120 Evaluation Kit</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-RASYNB-120.png" alt="RASynBoard NDP120 Evaluation Kit">
+  <p><strong>Manufacturer:</strong> Tria / Renesas</p>
+  <p><strong>Part Number:</strong> AES-RASYNB-120</p>
+  <p><a href="https://github.com/Avnet/RASynBoard-Out-of-Box-Demo/blob/rasynboard_v2_tiny/docs/IoTConnect.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / renesas">
+  <h2>RZBoard V2L</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-RZB-V2L-SK-G.png" alt="RZBoard V2L">
+  <p><strong>Manufacturer:</strong> Tria / Renesas</p>
+  <p><strong>Part Number:</strong> AES-RZB-V2L-SK-G</p>
+  <p><a href="https://github.com/avnet-iotconnect/meta-iotconnect-docs/blob/main/QuickStart/RZBoardV2L.md">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="tria / qualcom">
+  <h2>VisionAI-Kit 6490</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/AES-QCS6490-DK-G.png" alt="VisionAI-Kit 6490">
+  <p><strong>Manufacturer:</strong> Tria / Qualcom</p>
+  <p><strong>Part Number:</strong> AES-QCS6490-DK-G</p>
+  <p><a href="https://www.tria-technologies.com/product/vision-ai-kit-6490/">Product page</a></p>
+  <p><a href="https://github.com/Avnet/QCS6490-Vision-AI-Demo/pull/1">GitHub reference</a></p>
+</div>
+<div class="card" data-manufacturer="seeed studio">
+  <h2>reComputer J2021 - Edge AI Computer with NVIDIA® Jetson Xavier™ NX 8GB</h2>
+  <img src="https://saleshosted.z13.web.core.windows.net/images/boards/SEEED-j2021.png" alt="reComputer J2021 - Edge AI Computer with NVIDIA® Jetson Xavier™ NX 8GB">
+  <p><strong>Manufacturer:</strong> Seeed Studio</p>
+  <p><strong>Part Number:</strong> SEEED-j2021</p>
+  <p><a href="https://www.seeedstudio.com/reComputer-J2021-p-5438.html?srsltid=AfmBOoqBZskE6NmMEQJpHBTTkDxX9rWng3fbPMfN3jW2FyRzUayqdm9t">Product page</a></p>
+  <p><a href="https://github.com/avnet-iotconnect/iotc-jetson-demo">GitHub reference</a></p>
+</div>
+  </div>
+</div>
+<div id="image-modal" class="image-modal">
+  <span class="close">&times;</span>
+  <img id="modal-img" src="" alt="Expanded image">
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const select = document.getElementById("inventory-filter");
+  const searchInput = document.getElementById("inventory-search");
+  const cards = document.querySelectorAll(".card");
+  function filterCards() {
+    const selected = select.value;
+    const query = searchInput.value.toLowerCase();
+    cards.forEach(card => {
+      const matchesManufacturer = (selected === "all" || card.dataset.manufacturer === selected);
+      const matchesQuery = card.textContent.toLowerCase().includes(query);
+      if (matchesManufacturer && matchesQuery) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+  select.addEventListener("change", filterCards);
+  searchInput.addEventListener("input", filterCards);
+  // Image modal functionality
+  const modal = document.getElementById("image-modal");
+  const modalImg = document.getElementById("modal-img");
+  const closeBtn = modal.querySelector(".close");
+  document.querySelectorAll(".card img").forEach(img => {
+    img.addEventListener("click", function(e) {
+      modalImg.src = this.src;
+      modal.style.display = "flex";
+      e.stopPropagation();
+    });
+  });
+  modal.addEventListener("click", function(e) {
+    if (e.target === modal || e.target === closeBtn) {
+      modal.style.display = "none";
+    }
+  });
+});
+</script>
+</body>
+</html>

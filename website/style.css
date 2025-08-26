@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Use a very light tint behind the cards so white cards stand out */
+    background-color: #f2f4f8;
+    color: #333;
+}
+
+/* Simple navigation bar */
+nav {
+    /* Dark header bar to anchor the page and hold the logo */
+    background-color: #1a2a3a;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav .container {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: #ffffff;
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Logo styling to ensure it scales nicely in the nav bar */
+.logo {
+    height: 32px;
+    margin-right: 20px;
+    object-fit: contain;
+}
+
+/* General container used on pages */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Grid layout for cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Card styles */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e5ec;
+    border-radius: 8px;
+    /* Subtle shadow to lift cards off the page */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    /* Add dark background and white text to make the title stand out */
+    background-color: #1a2a3a;
+    color: #ffffff;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin: 10px 0 5px;
+}
+
+.card p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.card ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 5px 0 10px;
+    font-size: 14px;
+}
+
+.card a {
+    color: #007acc;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+/* Dashboard image grid inside demo cards */
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.dash-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Modal overlay for enlarged images */
+.image-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+}
+
+.image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.image-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+}
