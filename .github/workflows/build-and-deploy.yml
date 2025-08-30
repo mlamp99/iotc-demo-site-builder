@@ -2,18 +2,17 @@ name: Build & Deploy Catalog Site
 
 on:
   push:
-    branches: [ main ]     # change if your default branch isn't main
-  workflow_dispatch:       # allow manual runs from the Actions tab
-
-# Recommended to avoid overlapping publishes
-concurrency:
-  group: pages
-  cancel-in-progress: true
+    branches: [ main ]       # change if your default branch isn't main
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -21,44 +20,46 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Show repo tree (sanity check)
+        run: |
+          pwd
+          ls -lah
 
-      - name: Install dependencies
+      - name: Verify required files exist
+        run: |
+          test -f "generate_website.py" || (echo "Missing generate_website.py at repo root" && exit 1)
+          test -f "Board Catalog3.xlsx" || (echo "Missing Board Catalog3.xlsx at repo root" && exit 1)
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          # If you create a requirements.txt, replace this with: pip install -r requirements.txt
           pip install pandas openpyxl
 
       - name: Build static site
         run: |
-          # Run the generator from the repo root; it writes to catalog_website/website
-          python catalog_website/generate_website.py
-          test -d catalog_website/website && ls -lah catalog_website/website
+          python generate_website.py
+          echo "---- build output ----"
+          ls -lah website
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This must match the OUTPUT_DIR used by your script
-          path: catalog_website/website
+          path: website
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
