@@ -32,9 +32,13 @@ appear on the web page.
 import pandas as pd
 from pathlib import Path
 
-# Location of the spreadsheet and output directory
-DATA_FILE = Path("/home/oai/share/Board Catalog3.xlsx")
-OUTPUT_DIR = Path("/home/oai/share/website")
+# Location of the spreadsheet and output directory.  Resolve paths relative to the
+# script file so that the generator works correctly when checked into a
+# repository and run from any location.  When the script resides in
+# ``catalog_website/``, it will read ``Board Catalog3.xlsx`` from the same
+# folder and output the generated HTML into a ``website/`` subdirectory.
+DATA_FILE = Path(__file__).resolve().parent / 'Board Catalog3.xlsx'
+OUTPUT_DIR = Path(__file__).resolve().parent / 'website'
 
 # Predefined descriptions for certain demos.  These were crafted
 # manually based on the contents of the corresponding GitHub
@@ -263,19 +267,36 @@ descriptions = {
 
 
 def load_data():
-    """Load inventory and demos data from the spreadsheet."""
+    """Load inventory and demos data from the spreadsheet.
+
+    The inventory sheet may include additional columns beyond the standard
+    fields (Manufacturer, Common Name, Partnumber, Link, Image, ImageURL,
+    GithubIndex).  To preserve these extra columns (e.g. internal inventory
+    counts for team members), we rename only the first seven columns to
+    standard names and leave the remaining columns untouched.  All cells
+    are converted to strings where appropriate and leading/trailing
+    whitespace is stripped.
+    """
     xl = pd.ExcelFile(DATA_FILE)
     inv_df = xl.parse('Inventory')
     demos_df = xl.parse('Demos')
 
-    # Normalise headers for inventory
-    inv_df.columns = ['Manufacturer', 'Common Name', 'Partnumber',
-                      'Link', 'Image', 'ImageURL', 'GithubIndex']
+    # Rename the first seven columns to standard names while preserving any
+    # additional columns (e.g. inventory counts).  Some spreadsheets have
+    # generic "Unnamed:" column names; we assign meaningful names here.
+    col_names = inv_df.columns.tolist()
+    standard_cols = ['Manufacturer', 'Common Name', 'Partnumber', 'Link', 'Image', 'ImageURL', 'GithubIndex']
+    if len(col_names) >= len(standard_cols):
+        new_cols = standard_cols + col_names[len(standard_cols):]
+        inv_df.columns = new_cols
+    else:
+        # If fewer columns than expected, fill missing names
+        inv_df.columns = standard_cols[:len(col_names)]
 
-    # For rows where the first row contains header strings, drop it
-    inv_df = inv_df[inv_df['Manufacturer'] != 'Manufacturer']
+    # Drop potential duplicate header row if present
+    inv_df = inv_df[inv_df['Manufacturer'].astype(str).str.lower() != 'manufacturer']
 
-    # Trim whitespace from strings and fill NaN with empty strings
+    # Trim whitespace and fill NaN with empty strings for all string columns
     inv_df = inv_df.fillna('').applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
     # Normalise demos columns
@@ -393,6 +414,22 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
         gh_index_clean = str(gh_index).strip().lower()
         if gh_index_clean and gh_index_clean not in ('', 'no', 'in github index'):
             card_parts.append(f'  <p><a href="{row["GithubIndex"]}">GitHub reference</a></p>')
+
+        # If internal inventory columns exist (e.g. ML, KK, NM, ZA, SL, SD), display counts.
+        team_members = sorted(['KK', 'ML', 'NM', 'SD', 'SL', 'ZA'])
+        inventory_info = []
+        for member in team_members:
+            if member in row.index:
+                # Use the value if not blank; default to 0
+                val = row[member]
+                try:
+                    count = int(val) if str(val).strip() else 0
+                except (ValueError, TypeError):
+                    count = 0
+                inventory_info.append(f'<span><strong>{member}:</strong> {count}</span>')
+        if inventory_info:
+            card_parts.append('  <p><strong>Team inventory:</strong></p>')
+            card_parts.append('  <div class="inventory-counts">' + ' '.join(inventory_info) + '</div>')
         card_parts.append('</div>')  # close card
         body.append('\n'.join(card_parts))
     body.extend([
@@ -484,12 +521,16 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
         targets = [row[col].strip() for col in ['Target 1', 'Target 2', 'Target 3', 'Target 4'] if row[col]]
         gh_link = row['Github Link'].strip()
         # Determine description
-        desc_key = gh_link.lower()
-        description = descriptions.get(desc_key, '').strip()
+        # Prefer the description provided in the spreadsheet if available.
+        description = row['Demo Description'].strip()
+        # If the spreadsheet description is empty, fall back to a predefined summary for
+        # the given GitHub link (stored in the ``descriptions`` dictionary).  The
+        # dictionary key is the lower‑case of the link to ensure case‑insensitive matching.
         if not description:
-            description = row['Demo Description'].strip()
+            desc_key = gh_link.lower()
+            description = descriptions.get(desc_key, '').strip()
+        # If neither the spreadsheet nor dictionary provides a description, use a generic message.
         if not description:
-            # Fallback description
             description = 'Refer to the linked repository for more details.'
         # Collect dashboard images
         dash_cols = ['Dashboard 1', 'Dashboard 2', 'Dashboard 3', 'Dashboard 4', 'Dashboard 5', 'Dashboard 6']
@@ -507,6 +548,17 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
         if targets:
             target_list = ', '.join(filter(None, targets))
             card.append(f'  <p><strong>Target boards:</strong> {target_list}</p>')
+
+        # Derive simple tags from the demo name.  Split on whitespace and hyphens,
+        # convert to lower case and remove common stopwords to produce concise tags.
+        import re
+        ignore = {"ai", "kit", "demo", "demos", "project", "and", "the", "with", "example", "fall", "sensor", "detection", "autonomous", "mini", "all"}
+        words = re.split(r'[\s\-]+', demo_name)
+        tags = [w.lower() for w in words if w and w.lower() not in ignore]
+        if tags:
+            tag_spans = ' '.join([f'<span class="tag">{t}</span>' for t in tags])
+            card.append(f'  <div class="tags">{tag_spans}</div>')
+
         card.append(f'  <p>{description}</p>')
         # Show GitHub link if available
         if gh_link and gh_link.lower() != 'no' and gh_link.lower() != '-':
