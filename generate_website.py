@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-IoTConnect Hardware & Demo Catalog site generator (cleaned)f
-- No in-code descriptions. All demo text comes from the spreadsheet.
-- Catalog source can be SharePoint (public link or Graph) or local XLSX.
-- Manufacturer shown above title, strong tile separation, case-insensitive search,
-  lightbox image viewer, manufacturer filter, tags, team inventory (KK,ML,NM,SD,SL,ZA).
+IoTConnect Catalog site generator
+- Sources Excel from SharePoint/OneDrive link (CATALOG_XLSX_URL) or local Board Catalog3.xlsx
+- Inventory, Demos, and Events pages (Events sheet is column-wise: name/date/urls)
+- All demo descriptions come from spreadsheet (no in-code dictionary)
 """
 import os
 import io
@@ -19,7 +18,7 @@ import requests
 
 # ---------- Paths ----------
 SCRIPT_DIR = Path(__file__).resolve().parent
-DEFAULT_DATA_FILE = SCRIPT_DIR / "Board Catalog3.xlsx"
+DEFAULT_DATA_FILE = SCRIPT_DIR / "Board Catalog3.xlsx"   # local fallback if URL not provided
 OUTPUT_DIR = SCRIPT_DIR / "website"
 
 # ---------- SharePoint / Graph helpers ----------
@@ -81,7 +80,7 @@ def get_catalog_bytes() -> bytes | None:
     print("[catalog] ERROR: no catalog source available")
     return None
 
-# ---------- Robust header normalization ----------
+# ---------- Column normalization (Inventory) ----------
 def _norm(s: str) -> str:
     return re.sub(r'[^a-z0-9]+', '', str(s).strip().lower())
 
@@ -90,7 +89,7 @@ _INV_ALIAS = {
     'Common Name': {'commonname', 'name', 'boardname', 'title'},
     'Partnumber':  {'partnumber', 'partnum', 'partno', 'partnumb', 'pn', 'mpn'},
     'Link':        {'link', 'productlink', 'buy', 'producturl'},
-    'Image':       {'image', 'boardimage', 'imageurl'},
+    'Image':       {'image', 'boardimage', 'imageurl', 'imagepath'},
     'URL':         {'url', 'producturl', 'weburl'},
     'GithubIndex': {'ingithubindex', 'githubindex', 'github', 'githublink', 'ingithubi'},
 }
@@ -139,11 +138,32 @@ def load_data():
 
     demos_df = xl.parse('Demos').fillna('')
 
-    return inv_df, demos_df
+    # Events: column-wise table
+    events_df = xl.parse('Events', header=None)
+    events = []
+    # Each column is an event: row0 name, row1 date, row2.. urls
+    for col in range(events_df.shape[1]):
+        name = str(events_df.iloc[0, col]).strip() if col < events_df.shape[1] else ''
+        date = str(events_df.iloc[1, col]).strip() if events_df.shape[0] > 1 else ''
+        if not name:
+            continue
+        urls = []
+        for r in range(2, events_df.shape[0]):
+            val = str(events_df.iloc[r, col]).strip()
+            if val and val.lower().startswith(('http://','https://')):
+                urls.append(val)
+        events.append({'name': name, 'date': date, 'images': urls})
+
+    return inv_df, demos_df, events
 
 # ---------- HTML helpers ----------
 def generate_nav(current_page: str) -> str:
-    links = {'index.html':'Home','inventory.html':'Inventory','demos.html':'Demos'}
+    links = {
+        'index.html':'Home',
+        'inventory.html':'Inventory',
+        'demos.html':'Demos',
+        'events.html':'Events',
+    }
     nav_items = []
     for page, name in links.items():
         style = ' style="text-decoration:underline"' if page == current_page else ''
@@ -188,7 +208,6 @@ nav a:hover { text-decoration: underline; }
 .card a:hover { text-decoration: underline; }
 
 .manufacturer-name { font-size: 14px; font-weight: bold; color: #1a2a3a; margin: 0 0 4px; text-transform: uppercase; }
-
 .inventory-counts { font-size: 13px; margin: 5px 0 10px; }
 .inventory-counts span { display: inline-block; margin-right: 10px; background-color: #e8edf5; padding: 2px 6px; border-radius: 4px; color: #1a2a3a; }
 
@@ -197,27 +216,35 @@ nav a:hover { text-decoration: underline; }
 
 .image-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:1000; cursor:zoom-out; }
 .image-modal img { max-width:92%; max-height:92%; border-radius:6px; background:#fff; }
+
+/* Events page */
+.event-meta { color:#2b3d4d; margin: 6px 0 10px; }
+.thumb-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:14px; }
+.thumb { width:100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; }
+.event-actions { margin-top: 6px; }
+.btn { display:inline-block; padding:6px 10px; border-radius:6px; background:#1a67d2; color:#fff; text-decoration:none; cursor:pointer; font-size: 14px; }
+.btn.secondary { background:#6b7c8c; }
 """
 
 # ---------- Pages ----------
-def generate_index(inv_df: pd.DataFrame, demos_df: pd.DataFrame) -> str:
+def generate_index(inv_df: pd.DataFrame, demos_df: pd.DataFrame, events: list[dict]) -> str:
     nav = generate_nav('index.html')
     return f"""<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IoTConnect Catalog</title><link rel="stylesheet" href="style.css">
 </head><body>{nav}
 <div class="container">
-  <h1>IoTConnect Hardware & Demo Catalog</h1>
-  <p>Browse available hardware and demos. Use the Inventory and Demos pages to filter by manufacturer, search case-insensitively, and click images to enlarge.</p>
+  <h1>IoTConnect Hardware, Demos & Events</h1>
+  <p>Browse available hardware and demos. Use the Events page to view event photo galleries.</p>
   <ul>
     <li><strong>{len(inv_df)}</strong> boards in inventory</li>
     <li><strong>{len(demos_df)}</strong> demos cataloged</li>
+    <li><strong>{len(events)}</strong> events with photos</li>
   </ul>
 </div></body></html>"""
 
 def generate_inventory(inv_df: pd.DataFrame) -> str:
     nav = generate_nav('inventory.html')
-    # unique manufacturers
     mfgs = sorted({str(m).strip() for m in inv_df.get('Manufacturer', []) if str(m).strip()})
     options = ['<option value="all">All Manufacturers</option>'] + [f'<option value="{m}">{m}</option>' for m in mfgs]
 
@@ -239,7 +266,7 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
         link = str(row.get('Link', '')).strip()
         image = str(row.get('Image', '')).strip()
         gh_index = str(row.get('GithubIndex', '')).strip()
-        # Team counts
+
         counts = []
         for k in sorted(TEAM_INITIALS):
             val = row.get(k, '')
@@ -253,19 +280,16 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
         card.append(f'  <h2>{name}</h2>')
         if image:
             card.append(f'  <img src="{image}" alt="{name}" class="enlargeable">')
+        if manufacturer:
+            card.append(f'  <p><strong>Manufacturer:</strong> {manufacturer}</p>')
         if part_no:
             card.append(f'  <p><strong>Part Number:</strong> {part_no}</p>')
-
         if gh_index and gh_index.lower() != 'no':
             card.append(f'  <p><a href="{gh_index}" target="_blank" rel="noopener">GitHub reference</a></p>')
         elif link:
             card.append(f'  <p><a href="{link}" target="_blank" rel="noopener">Product page</a></p>')
-
-        # Team inventory
-        counts_str = ' '.join([f'{k}: {n}' for k, n in counts])
         card.append('  <p><strong>Team inventory:</strong></p>')
         card.append(f'  <div class="inventory-counts">{" ".join([f"<span>{k}: {n}</span>" for k, n in counts])}</div>')
-
         card.append('</div>')
         body.extend(card)
 
@@ -273,12 +297,10 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
 </div>
 <div id="imgModal" class="image-modal"><img alt=""></div>
 <script>
-// case-insensitive search + manufacturer filter
 (function(){
   const select = document.getElementById('inventory-filter');
   const search = document.getElementById('inventory-search');
   const cards  = Array.from(document.querySelectorAll('.card'));
-
   function applyFilters(){
     const mfg = (select.value || 'all').toLowerCase();
     const q   = (search.value || '').toLowerCase();
@@ -290,8 +312,6 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
   }
   select.addEventListener('change', applyFilters);
   search.addEventListener('input', applyFilters);
-
-  // lightbox
   const modal = document.getElementById('imgModal');
   const modalImg = modal.querySelector('img');
   document.body.addEventListener('click', e => {
@@ -321,25 +341,20 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
   <div class="grid">"""]
 
     dash_cols = [f'Dashboard {i}' for i in range(1,7)]
-    img_cols  = [f'Demo Image {i}' for i in range(1,6)]
-    target_cols = [f'Target {i}' for i in range(1,5)]
+    img_cols  = [f'Demo Image {i}' for i in range(1,5+1)]
+    target_cols = [f'Target {i}' for i in range(1,4+1)]
 
     for _, row in demos_df.iterrows():
         manufacturer = str(row.get('Manufacturer', '')).strip()
         title = str(row.get('Demo', '')).strip()
         gh_link = str(row.get('Github Link', '')).strip()
-        description = str(row.get('Demo Description', '')).strip()
-        if not description:
-            description = 'Description coming soon.'
-
-        # Tags: prefer spreadsheet Tags column, else derive from title
+        description = str(row.get('Demo Description', '')).strip() or 'Description coming soon.'
         tags_raw = str(row.get('Tags', '')).strip()
         if tags_raw:
             tags = [t.strip() for t in tags_raw.split(',') if t.strip()]
         else:
             words = re.split(r'[\s\-_\/]+', title)
             tags = [w for w in words if w and w.lower() not in {'the','and','for','with','demo','iot','a','an','on'}][:6]
-
         targets = [str(row.get(c, '')).strip() for c in target_cols if str(row.get(c, '')).strip()]
         dashboards = [str(row.get(c, '')).strip() for c in dash_cols if str(row.get(c, '')).strip()]
         demo_imgs  = [str(row.get(c, '')).strip() for c in img_cols if str(row.get(c, '')).strip()]
@@ -351,26 +366,21 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
             card.append(f'  <p><strong>Manufacturer:</strong> {manufacturer}</p>')
         if targets:
             card.append(f'  <p><strong>Target boards:</strong> {", ".join(targets)}</p>')
-          
-        card.append(f'  <p>{description}</p>')
-
-        if gh_link:
-            card.append(f'  <p><a href="{gh_link}" target="_blank" rel="noopener">GitHub repository</a></p>')
-
-        if dashboards:
-            card.append('  <div class="dash-grid">')
-            for url in dashboards:
-                card.append(f'    <img src="{url}" alt="Dashboard" class="enlargeable">')
-            card.append('  </div>')
-        if demo_imgs:
-            card.append('  <div class="dash-grid">')
-            for url in demo_imgs:
-                card.append(f'    <img src="{url}" alt="Demo image" class="enlargeable">')
-            card.append('  </div>')
-
         if tags:
             card.append('  <div class="tags">' + ' '.join(f'<span class="tag">{t}</span>' for t in tags) + '</div>')
-
+        card.append(f'  <p>{description}</p>')
+        if gh_link:
+            card.append(f'  <p><a href="{gh_link}" target="_blank" rel="noopener">GitHub repository</a></p>')
+        if dashboards:
+            card.append('  <div class="thumb-grid">')
+            for url in dashboards:
+                card.append(f'    <img src="{url}" alt="Dashboard" class="thumb enlargeable">')
+            card.append('  </div>')
+        if demo_imgs:
+            card.append('  <div class="thumb-grid">')
+            for url in demo_imgs:
+                card.append(f'    <img src="{url}" alt="Demo image" class="thumb enlargeable">')
+            card.append('  </div>')
         card.append('</div>')
         body.extend(card)
 
@@ -406,22 +416,84 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
 </body></html>"""])
     return '\n'.join(body)
 
+def generate_events(events: list[dict]) -> str:
+    nav = generate_nav('events.html')
+    body = [f"""<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events</title><link rel="stylesheet" href="style.css"></head><body>{nav}
+<div class="container">
+  <h1>Event Photo Galleries</h1>
+  <p>Select an event to view its photos. Thumbnails are uniform size; click to enlarge.</p>
+  <div class="grid">"""]
+
+    for i, ev in enumerate(events):
+        name = ev['name']
+        date = ev.get('date', '')
+        images = ev.get('images', [])
+        count = len(images)
+        eid = f"event_{i}"
+        card = [f'<div class="card">']
+        card.append(f'  <h2>{name}</h2>')
+        if date:
+            card.append(f'  <div class="event-meta"><strong>Date:</strong> {date} &nbsp; • &nbsp; <strong>Photos:</strong> {count}</div>')
+        else:
+            card.append(f'  <div class="event-meta"><strong>Photos:</strong> {count}</div>')
+        card.append(f'  <div class="event-actions"><a class="btn" data-target="{eid}">Show photos</a></div>')
+        # hidden grid until toggled
+        card.append(f'  <div id="{eid}" class="thumb-grid" style="display:none;">')
+        for url in images:
+            card.append(f'    <img src="{url}" alt="Event photo" class="thumb enlargeable">')
+        card.append('  </div>')
+        card.append('</div>')
+        body.extend(card)
+
+    body.extend(["""  </div>
+</div>
+<div id="imgModal" class="image-modal"><img alt=""></div>
+<script>
+(function(){
+  // Toggle galleries
+  document.body.addEventListener('click', e => {
+    const btn = e.target.closest('a.btn[data-target]');
+    if (btn) {
+      const id = btn.getAttribute('data-target');
+      const panel = document.getElementById(id);
+      if (panel) {
+        const open = panel.style.display !== 'none';
+        panel.style.display = open ? 'none' : 'grid';
+        btn.textContent = open ? 'Show photos' : 'Hide photos';
+      }
+    }
+  });
+  // Lightbox
+  const modal = document.getElementById('imgModal');
+  const modalImg = modal.querySelector('img');
+  document.body.addEventListener('click', e => {
+    const img = e.target.closest('img.enlargeable');
+    if (img) { modalImg.src = img.src; modal.style.display = 'flex'; }
+  });
+  modal.addEventListener('click', () => { modal.style.display = 'none'; modalImg.src=''; });
+})();
+</script>
+</body></html>"""])
+    return '\n'.join(body)
+
 # ---------- Main ----------
 def main():
-    inv_df, demos_df = load_data()
+    inv_df, demos_df, events = load_data()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # write assets
     write_file(OUTPUT_DIR / "style.css", STYLE_CSS)
-    # copy logo if present
     logo = SCRIPT_DIR / "iotconnect_logo.png"
     if logo.exists():
         (OUTPUT_DIR / "iotconnect_logo.png").write_bytes(logo.read_bytes())
 
     # pages
-    write_file(OUTPUT_DIR / "index.html",     generate_index(inv_df, demos_df))
+    write_file(OUTPUT_DIR / "index.html",     generate_index(inv_df, demos_df, events))
     write_file(OUTPUT_DIR / "inventory.html", generate_inventory(inv_df))
     write_file(OUTPUT_DIR / "demos.html",     generate_demos(demos_df))
+    write_file(OUTPUT_DIR / "events.html",    generate_events(events))
     print(f"[done] wrote site to: {OUTPUT_DIR}")
 
 if __name__ == "__main__":
