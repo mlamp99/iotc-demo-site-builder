@@ -34,7 +34,7 @@ jobs:
       - name: Build static site (read XLSX from OneDrive/SharePoint)
         env:
           # Your read-only OneDrive/SharePoint link to iotc-master-catalog.xlsx
-          CATALOG_XLSX_URL: "https://avtinc-my.sharepoint.com/:x:/r/personal/michael_lamp_avnet_com/Documents/iotc-master-catalog.xlsx?d=waef4e43abb0f492abdaad71a6aa48384&csf=1&web=1&e=KL6IAZ"
+          CATALOG_XLSX_URL: "https://avtinc-my.sharepoint.com/:x:/g/personal/michael_lamp_avnet_com/ETrk9K4PuypJvarXGmqkg4QBVWU6YOfi3ii3iujieiB2bA?e=F7fsfb"
         run: |
           python generate_website.py
           echo "---- build output ----"
