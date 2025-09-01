@@ -3,7 +3,8 @@ body {
     margin: 0;
     padding: 0;
     /* Use a very light tint behind the cards so white cards stand out */
-    background-color: #f2f4f8;
+    /* Slightly lighter background to make cards stand out more */
+    background-color: #eef3f8;
     color: #333;
 }
 
@@ -39,6 +40,15 @@ nav a:hover {
     object-fit: contain;
 }
 
+/* Manufacturer name styling above the title */
+.manufacturer-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1a2a3a;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+}
+
 /* General container used on pages */
 .container {
     width: 90%;
@@ -51,16 +61,16 @@ nav a:hover {
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 28px;
 }
 
 /* Card styles */
 .card {
     background-color: #ffffff;
-    border: 1px solid #e0e5ec;
-    border-radius: 8px;
-    /* Subtle shadow to lift cards off the page */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccd7e0;
+    border-radius: 10px;
+    /* Increase shadow and margin to more clearly separate tiles */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -110,6 +120,35 @@ nav a:hover {
 
 .card a:hover {
     text-decoration: underline;
+}
+
+/* Inventory counts styling */
+.inventory-counts {
+    font-size: 13px;
+    margin: 5px 0 10px;
+}
+.inventory-counts span {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #e8edf5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #1a2a3a;
+}
+
+/* Tag styling for demos */
+.tags {
+    margin: 5px 0;
+}
+.tags .tag {
+    display: inline-block;
+    background-color: #dfe7f3;
+    color: #1a2a3a;
+    padding: 2px 6px;
+    margin-right: 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 /* Dashboard image grid inside demo cards */
