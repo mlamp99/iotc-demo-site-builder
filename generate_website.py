@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+f#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 IoTConnect Hardware & Demo Catalog site generator (cleaned)
@@ -253,8 +253,6 @@ def generate_inventory(inv_df: pd.DataFrame) -> str:
         card.append(f'  <h2>{name}</h2>')
         if image:
             card.append(f'  <img src="{image}" alt="{name}" class="enlargeable">')
-        if manufacturer:
-            card.append(f'  <p><strong>Manufacturer:</strong> {manufacturer}</p>')
         if part_no:
             card.append(f'  <p><strong>Part Number:</strong> {part_no}</p>')
 
