@@ -21,6 +21,26 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_DATA_FILE = SCRIPT_DIR / "Board Catalog3.xlsx"   # local fallback if URL not provided
 OUTPUT_DIR = SCRIPT_DIR / "website"
 
+# ---------- Event date formatting ----------
+def _format_event_date(value) -> str:
+    """
+    Return a friendly date like 'Aug 3, 2025' with no time.
+    Works whether Excel gives us a Timestamp, datetime, or a string such as '2025-08-03 00:00:00'.
+    """
+    try:
+        ts = pd.to_datetime(value)
+        # Linux/mac uses %-d; Windows needs %#d. Try both.
+        try:
+            return ts.strftime("%b %-d, %Y")
+        except Exception:
+            return ts.strftime("%b %#d, %Y")
+    except Exception:
+        s = str(value).strip()
+        # Strip a trailing time part if present
+        if " " in s:
+            return s.split(" ", 1)[0]
+        return s
+
 # ---------- SharePoint / Graph helpers ----------
 def _try_direct_download(url: str) -> bytes | None:
     if not url:
@@ -143,8 +163,10 @@ def load_data():
     events = []
     # Each column is an event: row0 name, row1 date, row2.. urls
     for col in range(events_df.shape[1]):
-        name = str(events_df.iloc[0, col]).strip() if col < events_df.shape[1] else ''
-        date = str(events_df.iloc[1, col]).strip() if events_df.shape[0] > 1 else ''
+        raw_name = events_df.iloc[0, col] if col < events_df.shape[1] else ''
+        raw_date = events_df.iloc[1, col] if events_df.shape[0] > 1 else ''
+        name = str(raw_name).strip()
+        date = _format_event_date(raw_date)  # formatted without time
         if not name:
             continue
         urls = []
@@ -222,7 +244,12 @@ nav a:hover { text-decoration: underline; }
 .thumb-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:14px; }
 .thumb { width:100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; }
 .event-actions { margin-top: 6px; }
-.btn { display:inline-block; padding:6px 10px; border-radius:6px; background:#1a67d2; color:#fff; text-decoration:none; cursor:pointer; font-size: 14px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 6px;
+  background:#1a67d2; color:#fff; text-decoration:none; cursor:pointer; font-size:14px; line-height:1.2;
+}
+.btn .icon { font-size:16px; line-height:1; }
 .btn.secondary { background:#6b7c8c; }
 """
 
@@ -438,7 +465,11 @@ def generate_events(events: list[dict]) -> str:
             card.append(f'  <div class="event-meta"><strong>Date:</strong> {date} &nbsp; • &nbsp; <strong>Photos:</strong> {count}</div>')
         else:
             card.append(f'  <div class="event-meta"><strong>Photos:</strong> {count}</div>')
-        card.append(f'  <div class="event-actions"><a class="btn" data-target="{eid}">Show photos</a></div>')
+        card.append(
+            '  <div class="event-actions">'
+            f'    <a class="btn" data-target="{eid}"><span class="icon" aria-hidden="true">📷</span><span class="label">Show photos</span></a>'
+            '  </div>'
+        )
         # hidden grid until toggled
         card.append(f'  <div id="{eid}" class="thumb-grid" style="display:none;">')
         for url in images:
@@ -452,7 +483,7 @@ def generate_events(events: list[dict]) -> str:
 <div id="imgModal" class="image-modal"><img alt=""></div>
 <script>
 (function(){
-  // Toggle galleries
+  // Toggle galleries (preserve camera icon, only swap label text)
   document.body.addEventListener('click', e => {
     const btn = e.target.closest('a.btn[data-target]');
     if (btn) {
@@ -461,7 +492,8 @@ def generate_events(events: list[dict]) -> str:
       if (panel) {
         const open = panel.style.display !== 'none';
         panel.style.display = open ? 'none' : 'grid';
-        btn.textContent = open ? 'Show photos' : 'Hide photos';
+        const lbl = btn.querySelector('.label');
+        if (lbl) lbl.textContent = open ? 'Show photos' : 'Hide photos';
       }
     }
   });
