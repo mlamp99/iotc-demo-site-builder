@@ -1,7 +1,7 @@
-f#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-IoTConnect Hardware & Demo Catalog site generator (cleaned)
+IoTConnect Hardware & Demo Catalog site generator (cleaned)f
 - No in-code descriptions. All demo text comes from the spreadsheet.
 - Catalog source can be SharePoint (public link or Graph) or local XLSX.
 - Manufacturer shown above title, strong tile separation, case-insensitive search,
@@ -351,10 +351,7 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
             card.append(f'  <p><strong>Manufacturer:</strong> {manufacturer}</p>')
         if targets:
             card.append(f'  <p><strong>Target boards:</strong> {", ".join(targets)}</p>')
-
-        if tags:
-            card.append('  <div class="tags">' + ' '.join(f'<span class="tag">{t}</span>' for t in tags) + '</div>')
-
+          
         card.append(f'  <p>{description}</p>')
 
         if gh_link:
@@ -370,6 +367,9 @@ def generate_demos(demos_df: pd.DataFrame) -> str:
             for url in demo_imgs:
                 card.append(f'    <img src="{url}" alt="Demo image" class="enlargeable">')
             card.append('  </div>')
+
+        if tags:
+            card.append('  <div class="tags">' + ' '.join(f'<span class="tag">{t}</span>' for t in tags) + '</div>')
 
         card.append('</div>')
         body.extend(card)
